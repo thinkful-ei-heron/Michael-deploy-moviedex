@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const STORE = require('./movieData.json');
-const { PORT, NODE_ENV } = require('./config');
+const { PORT, NODE_ENV, API_TOKEN } = require('./config');
 require('dotenv').config();
 
 const app = express();
@@ -19,7 +19,7 @@ function handleAuth(req, res, next) {
   if (!userAuth) res.status(401).json({ error: 'unauthorized' });
   if (!userAuth.includes('Bearer'))
     res.status(401).json({ error: 'unauthorized' });
-  if (userAuth.split(' ')[1] !== process.env.API_KEY)
+  if (userAuth.split(' ')[1] !== API_TOKEN)
     res.status(401).json({ error: 'forbidden' });
   next();
 }
